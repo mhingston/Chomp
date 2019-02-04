@@ -40,22 +40,20 @@ namespace Chomp
                 fileName = $"file-{FileNumber++}.txt";
             }
 
+            string output = "";
             string text = item["text"].ToString();
             JArray ranges = (JArray)item["ranges"];
 
-            for (var i = ranges.Count - 1; i >= 0; i--)
+            foreach (JObject range in ranges)
             {
-                int start = (int)ranges[i]["start"];
-                int end = (int)ranges[i]["end"];
-
-                string before = text.Substring(0, start);
-                string after = text.Substring(end);
-                text = before + after;
+                int start = (int)range["start"];
+                int end = (int)range["end"];
+                output += text.Substring(start, end - start);
             }
 
             FileInfo file = new FileInfo(Path.Join(OutputDirectory, fileName));
             file.Directory.Create();
-            File.WriteAllText(file.FullName, text);
+            File.WriteAllText(file.FullName, output);
         }
 
         static void ReadFile(Options options)
