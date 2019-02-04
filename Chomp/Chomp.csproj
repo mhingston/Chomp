@@ -10,10 +10,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="linux-x64\" />
-    <Folder Include="osx-x64\" />
-    <Folder Include="win-x64\" />
-  </ItemGroup>
-
 </Project>

@@ -7,6 +7,7 @@ namespace Chomp
 {
     class Program
     {
+        private static int FileNumber = 1;
         private static string OutputDirectory { get; set; }
         public class Options
         {
@@ -33,6 +34,12 @@ namespace Chomp
         static void ProcessFile(JObject item)
         {
             string fileName = GetFileName(item["url"].ToString());
+
+            if(fileName == "/")
+            {
+                fileName = $"file-{FileNumber++}.txt";
+            }
+
             string text = item["text"].ToString();
             JArray ranges = (JArray)item["ranges"];
 
@@ -46,7 +53,7 @@ namespace Chomp
                 text = before + after;
             }
 
-            FileInfo file = new System.IO.FileInfo(Path.Join(OutputDirectory, fileName));
+            FileInfo file = new FileInfo(Path.Join(OutputDirectory, fileName));
             file.Directory.Create();
             File.WriteAllText(file.FullName, text);
         }
